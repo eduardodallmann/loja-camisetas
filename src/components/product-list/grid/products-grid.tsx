@@ -4,6 +4,7 @@ import type { SearchParams } from '~/next-types';
 import { getShirts } from '~/services/shirts.server';
 
 import { ProductColors } from './product-colors';
+import { ProductSizes } from './product-sizes';
 import { Styled } from './styled';
 
 export const ProductsGrid = async ({ searchParams }: SearchParams) => {
@@ -22,7 +23,6 @@ export const ProductsGrid = async ({ searchParams }: SearchParams) => {
                 <Styled.Grid.Product.Title>
                   {product.name}
                 </Styled.Grid.Product.Title>
-                <ProductColors colors={product.colors} />
               </div>
               <Styled.Grid.Product.Price>
                 R${' '}
@@ -31,6 +31,8 @@ export const ProductsGrid = async ({ searchParams }: SearchParams) => {
                 })}
               </Styled.Grid.Product.Price>
             </Styled.Grid.Product.Text>
+            <ProductColors colors={product.colors} />
+            <ProductSizes sizes={product.sizes} />
           </Styled.Grid.Product.Product>
         ))}
       </Styled.Grid.Align>

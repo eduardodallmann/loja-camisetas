@@ -92,6 +92,33 @@ const ProductsGridProductColor = w.div(
   },
 );
 
+const ProductsGridProductSizeWrapper = w.div(`
+    w-full
+    flex
+    justify-between
+    mt-2
+`);
+
+const ProductsGridProductSize = w.div(
+  `
+    flex
+    items-center
+    justify-center
+    w-6
+    h-6
+    border
+    border-gray-300
+    rounded-md
+    text-[9px]
+`,
+  {
+    variants: {
+      disabled: (disabled: boolean) =>
+        disabled ? 'border-dotted text-gray-300' : '',
+    },
+  },
+);
+
 export const Styled = {
   Grid: {
     Wrapper: ProductsGridWrapper,
@@ -106,6 +133,10 @@ export const Styled = {
       Color: {
         Color: ProductsGridProductColor,
         Wrapper: ProductsGridProductColorWrapper,
+      },
+      Size: {
+        Wrapper: ProductsGridProductSizeWrapper,
+        Size: ProductsGridProductSize,
       },
     },
   },

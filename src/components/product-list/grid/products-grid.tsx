@@ -1,10 +1,14 @@
-import type { Product } from '~/entities/product';
+'use server';
+
+import type { SearchParams } from '~/next-types';
+import { getShirts } from '~/services/shirts.server';
 
 import { ProductColors } from './product-colors';
 import { Styled } from './styled';
 
-export const ProductsGrid = ({ products }: { products: Array<Product> }) => {
-  //TODO
+export const ProductsGrid = async ({ searchParams }: SearchParams) => {
+  const products = await getShirts({ searchParams });
+
   return (
     <Styled.Grid.Wrapper>
       <Styled.Grid.Align>

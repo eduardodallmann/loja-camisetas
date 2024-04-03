@@ -1,16 +1,16 @@
 'use server';
 
+import { Suspense } from 'react';
+
+import { Spinner } from '~/components/commons/spinner';
 import { MenuFilterMobile } from '~/components/menu-mobile';
 import { Filters } from '~/components/product-list/filters';
 import { ProductsGrid } from '~/components/product-list/grid';
 import { Header } from '~/components/product-list/header';
 import { Styled } from '~/components/product-list/styled';
 import type { Params, SearchParams } from '~/next-types';
-import { getShirts } from '~/services/shirts.server';
 
 export default async function Home({ searchParams }: Params & SearchParams) {
-  const products = await getShirts({ searchParams });
-
   return (
     <>
       <MenuFilterMobile />
@@ -25,7 +25,16 @@ export default async function Home({ searchParams }: Params & SearchParams) {
             </Styled.Filter.Wrapper>
 
             <Styled.Product.Grid>
-              <ProductsGrid products={products} />
+              <Suspense
+                key={JSON.stringify(searchParams)}
+                fallback={
+                  <Styled.Loading>
+                    <Spinner />
+                  </Styled.Loading>
+                }
+              >
+                <ProductsGrid searchParams={searchParams} />
+              </Suspense>
             </Styled.Product.Grid>
           </Styled.Body>
         </Styled.Selection>

@@ -33,10 +33,18 @@ const ProductGrid = w.div(`
 lg:col-span-3
 `);
 
+const Loading = w.div(`
+    flex
+    justify-center
+    items-center
+    h-96
+`);
+
 export const Styled = {
   Main,
   Selection,
   Body: BodyGrid,
+  Loading,
   Filter: {
     Wrapper: FilterWrapper,
   },

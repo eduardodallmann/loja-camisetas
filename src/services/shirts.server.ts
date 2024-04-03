@@ -73,5 +73,9 @@ export function getShirts({ searchParams }: SearchParams) {
     }
   }
 
-  return Promise.resolve(sortedProducts);
+  return new Promise<Array<Product>>((resolve) => {
+    setTimeout(() => {
+      resolve(sortedProducts);
+    }, 1000);
+  });
 }

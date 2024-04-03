@@ -1,0 +1,4 @@
+@import './tailwind.css';
+@import './base.css';
+@import './custom.css';
+@import 'rc-slider/assets/index.css';

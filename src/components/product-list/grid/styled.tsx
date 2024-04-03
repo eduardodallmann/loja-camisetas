@@ -1,6 +1,8 @@
+import Link from 'next/link';
+
 import { w } from 'windstitch';
 
-import { ProductColor } from '~/entities/product';
+import { colorsToTailwind, type ProductColor } from '~/entities/product';
 
 const ProductsGridWrapper = w.div(`*:
     mx-auto
@@ -20,10 +22,12 @@ const ProductsGridAlign = w.div(`
     xl:gap-x-8
 `);
 
-const ProductsGridProductWrapper = w.div(`
+const ProductsGridProductWrapper = w(Link, {
+  className: `
     group
     relative
-`);
+`,
+});
 
 const ProductsGridProductImageWrapper = w.div(`
     aspect-h-1
@@ -78,16 +82,7 @@ const ProductsGridProductColor = w.div(
 `,
   {
     variants: {
-      color: (color: ProductColor) =>
-        ({
-          [ProductColor.Red]: 'bg-red-600',
-          [ProductColor.Blue]: 'bg-blue-600',
-          [ProductColor.Green]: 'bg-green-600',
-          [ProductColor.Yellow]: 'bg-yellow-600',
-          [ProductColor.Black]: 'bg-black',
-          [ProductColor.White]: 'bg-white border border-gray-300',
-          [ProductColor.Pink]: 'bg-pink-600',
-        })[color],
+      color: (color: ProductColor) => colorsToTailwind[color],
     },
   },
 );

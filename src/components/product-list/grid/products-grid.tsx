@@ -1,5 +1,6 @@
 'use server';
 
+import { EmptyState } from '~/components/commons/empty-state';
 import type { SearchParams } from '~/next-types';
 import { getShirts } from '~/services/shirts.server';
 
@@ -12,11 +13,17 @@ export const ProductsGrid = async ({ searchParams }: SearchParams) => {
 
   return (
     <Styled.Grid.Wrapper>
+      {products.length === 0 && (
+        <EmptyState
+          title="Nenhum produto encontrado"
+          paragraph="Tente novamente com outros filtros"
+        />
+      )}
       <Styled.Grid.Align>
         {products.map((product) => (
-          <Styled.Grid.Product.Product key={product.id}>
+          <Styled.Grid.Product.Product key={product.id} href={`${product.id}`}>
             <Styled.Grid.Product.Image>
-              <Styled.Grid.Product.ImageSrc src={product.imageSrc} />
+              <Styled.Grid.Product.ImageSrc src={product.image[0].src.small} />
             </Styled.Grid.Product.Image>
             <Styled.Grid.Product.Text>
               <div>

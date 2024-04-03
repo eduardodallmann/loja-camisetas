@@ -17,13 +17,24 @@ export enum ProductSize {
   XXL = 'xxl',
 }
 
+export type Image = {
+  src: {
+    small: string;
+    big: string;
+  };
+  alt: string;
+};
+
 export type Product = {
   id: number;
   name: string;
   price: number;
-  imageSrc: string;
-  colors: ProductColor[];
-  sizes: ProductSize[];
+  image: Array<Image>;
+  description: string;
+  highlights: Array<string>;
+  details: string;
+  colors: Array<ProductColor>;
+  sizes: Array<ProductSize>;
 };
 
 export const colorsDTO = [
@@ -35,6 +46,16 @@ export const colorsDTO = [
   { value: ProductColor.White, label: 'Branco' },
   { value: ProductColor.Pink, label: 'Rosa' },
 ];
+
+export const colorsToTailwind = {
+  [ProductColor.Red]: 'bg-red-600',
+  [ProductColor.Blue]: 'bg-blue-600',
+  [ProductColor.Green]: 'bg-green-600',
+  [ProductColor.Yellow]: 'bg-yellow-600',
+  [ProductColor.Black]: 'bg-black',
+  [ProductColor.White]: 'bg-white border border-gray-300',
+  [ProductColor.Pink]: 'bg-pink-600',
+};
 
 export const sizesDTO = [
   { value: ProductSize.XS, label: 'XP' },

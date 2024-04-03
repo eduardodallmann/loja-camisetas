@@ -79,3 +79,19 @@ export function getShirts({ searchParams }: SearchParams) {
     }, 1000);
   });
 }
+
+export function getShirt({ id }: { id: string }) {
+  const products = global.cacheBase.get<Array<Product>>('products') || [];
+
+  const finded = products.find((product) => product.id === Number(id));
+
+  if (!finded) {
+    throw new Error('Product not found');
+  }
+
+  return new Promise<Product>((resolve) => {
+    setTimeout(() => {
+      resolve(finded);
+    }, 1000);
+  });
+}

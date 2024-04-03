@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "format": "prettier --write ./src",
+    "lint": "pnpm typecheck && eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "pnpm format && pnpm lint --fix",
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",

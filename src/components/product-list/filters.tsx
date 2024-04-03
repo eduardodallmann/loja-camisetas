@@ -10,6 +10,8 @@ import { FilterExpandable } from '../commons/filter-expandable';
 import { InputFilter } from '../commons/input-filter';
 import { SliderFilter } from '../commons/slider-filter';
 
+let debounceTimer: NodeJS.Timeout;
+
 export const Filters = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -23,7 +25,7 @@ export const Filters = () => {
     [searchParams.get('min')],
   );
   const max = useMemo(
-    () => Number(searchParams.get('max') || '1000'),
+    () => Number(searchParams.get('max') || '500'),
     [searchParams.get('max')],
   );
 
@@ -57,8 +59,6 @@ export const Filters = () => {
 
     router.push(`${pathname}?${newSearchParams}`, pushOptions);
   };
-
-  let debounceTimer: NodeJS.Timeout;
 
   const onChange = (type: string, value: string) => {
     setName(value);

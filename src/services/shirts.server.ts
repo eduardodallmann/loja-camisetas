@@ -1,3 +1,4 @@
+import { Sort } from '~/components/product-list/header/types';
 import type { Product } from '~/entities/product';
 import type { SearchParams } from '~/next-types';
 
@@ -62,5 +63,15 @@ export function getShirts({ searchParams }: SearchParams) {
     predicates.every((predicate) => predicate(product)),
   );
 
-  return Promise.resolve(filteredProducts);
+  const sortedProducts = [...filteredProducts];
+
+  if (searchParams?.sort) {
+    if (searchParams.sort === Sort.PriceLowToHigh) {
+      sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (searchParams.sort === Sort.PriceHighToLow) {
+      sortedProducts.sort((a, b) => b.price - a.price);
+    }
+  }
+
+  return Promise.resolve(sortedProducts);
 }

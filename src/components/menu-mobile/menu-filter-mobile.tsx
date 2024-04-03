@@ -12,7 +12,6 @@ import { Filters } from '../product-list/filters';
 export const MenuFilterMobile = () => {
   const { openedMenu, closeMenu } = useMenu();
 
-  //TODO
   return (
     <Transition.Root show={openedMenu} as={Fragment}>
       <Dialog as="div" className="relative z-40 lg:hidden" onClose={closeMenu}>

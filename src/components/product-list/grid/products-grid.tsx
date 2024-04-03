@@ -1,35 +1,35 @@
 import type { Product } from '~/entities/product';
 
+import { ProductColors } from './product-colors';
+import { Styled } from './styled';
+
 export const ProductsGrid = ({ products }: { products: Array<Product> }) => {
   //TODO
   return (
-    <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
-      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+    <Styled.Grid.Wrapper>
+      <Styled.Grid.Align>
         {products.map((product) => (
-          <div key={product.id} className="group relative">
-            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-              <img
-                src={product.imageSrc}
-                className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-              />
-            </div>
-            <div className="mt-4 flex justify-between">
+          <Styled.Grid.Product.Product key={product.id}>
+            <Styled.Grid.Product.Image>
+              <Styled.Grid.Product.ImageSrc src={product.imageSrc} />
+            </Styled.Grid.Product.Image>
+            <Styled.Grid.Product.Text>
               <div>
-                <h3 className="text-sm text-gray-700">
-                  <a href={'product.href'}>
-                    <span aria-hidden="true" className="absolute inset-0" />
-                    {product.name}
-                  </a>
-                </h3>
-                {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
+                <Styled.Grid.Product.Title>
+                  {product.name}
+                </Styled.Grid.Product.Title>
+                <ProductColors colors={product.colors} />
               </div>
-              <p className="text-sm font-medium text-gray-900">
-                {product.price}
-              </p>
-            </div>
-          </div>
+              <Styled.Grid.Product.Price>
+                R${' '}
+                {product.price.toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                })}
+              </Styled.Grid.Product.Price>
+            </Styled.Grid.Product.Text>
+          </Styled.Grid.Product.Product>
         ))}
-      </div>
-    </div>
+      </Styled.Grid.Align>
+    </Styled.Grid.Wrapper>
   );
 };

@@ -1,13 +1,14 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import type { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { colorsDTO, sizesDTO } from '~/entities/product';
 
-import { FilterExpandable } from './filter-expandable';
-import { InputFilter } from './input-filter';
-import { SliderFilter } from './slider-filter';
+import { FilterExpandable } from '../commons/filter-expandable';
+import { InputFilter } from '../commons/input-filter';
+import { SliderFilter } from '../commons/slider-filter';
 
 export const Filters = () => {
   const router = useRouter();
@@ -16,10 +17,7 @@ export const Filters = () => {
 
   const color = searchParams.getAll('color');
   const size = searchParams.getAll('size');
-  const name = useMemo(
-    () => searchParams.get('name') || '',
-    [searchParams.get('name')],
-  );
+  const [name, setName] = useState(searchParams.get('name') || '');
   const min = useMemo(
     () => Number(searchParams.get('min') || '0'),
     [searchParams.get('min')],
@@ -43,6 +41,8 @@ export const Filters = () => {
   const sizesFilter = createFilter(size, sizesDTO);
   const colorsFilter = createFilter(color, colorsDTO);
 
+  const pushOptions: NavigateOptions = { scroll: false };
+
   const onCheck = (type: string, value: string, check: boolean) => {
     const currentValues = new Set(searchParams.getAll(type));
     if (check) {
@@ -55,14 +55,20 @@ export const Filters = () => {
     newSearchParams.delete(type);
     currentValues.forEach((val) => newSearchParams.append(type, val));
 
-    router.push(`${pathname}?${newSearchParams}`);
+    router.push(`${pathname}?${newSearchParams}`, pushOptions);
   };
 
-  const onChange = (type: string, value: string) => {
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    newSearchParams.set(type, value);
+  let debounceTimer: NodeJS.Timeout;
 
-    router.push(`${pathname}?${newSearchParams}`);
+  const onChange = (type: string, value: string) => {
+    setName(value);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+      newSearchParams.set(type, value);
+
+      router.push(`${pathname}?${newSearchParams}`, pushOptions);
+    }, 1000);
   };
 
   const onSlider = (value: number | Array<number>) => {
@@ -71,7 +77,7 @@ export const Filters = () => {
     newSearchParams.set('min', min.toString());
     newSearchParams.set('max', max.toString());
 
-    router.push(`${pathname}?${newSearchParams}`);
+    router.push(`${pathname}?${newSearchParams}`, pushOptions);
   };
 
   return (
